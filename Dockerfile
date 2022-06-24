@@ -8,6 +8,7 @@ RUN apk update && apk add ca-certificates iptables ip6tables && rm -rf /var/cach
 
 # Copy binary to production image
 RUN mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
+RUN chmod 755 start.sh
 
 # Run on container startup.
 CMD ["/app/start.sh"]
