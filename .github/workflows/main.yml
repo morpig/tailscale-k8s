@@ -35,5 +35,5 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.SECRET_KEY }}
 
-    - name: Push image to ghcr
-      run: docker push ghcr.io/morpig/tailscale-k8s:$(echo $GITHUB_SHA | head -c7)
+    - name: Push image to ghcr as latest
+      run: docker push ghcr.io/morpig/tailscale-k8s:latest
