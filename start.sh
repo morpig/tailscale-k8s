@@ -1,6 +1,14 @@
 #!/bin/sh
 
+echo "Starting tailscaled"
+
 PID=$!
+
+UP_ARGS="--authkey=${TAILSCALE_AUTH_KEY}"
+
+if [[ ! -z "${EXTRA_UP_ARGS}" ]]; then
+  UP_ARGS="${UP_ARGS} ${EXTRA_UP_ARGS:-}"
+fi
 
 if [[ ! -d /dev/net ]]; then
   mkdir -p /dev/net
@@ -11,6 +19,6 @@ if [[ ! -c /dev/net/tun ]]; then
 fi
 
 /app/tailscaled --state=/var/lib/tailscale/tailscaled.state --socket=/var/run/tailscale/tailscaled.sock &
-/app/tailscale up --authkey=${TAILSCALE_AUTH_KEY}
+/app/tailscale --socket=/var/run/tailscale/tailscaled.sock up ${UP_ARGS}
 
 wait ${PID}
